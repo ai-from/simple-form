@@ -78,6 +78,7 @@ export default {
 
 <style lang="sass">
 .field
+  width: min-content
   label
     font-family: $FiraSans
     font-size: 0.75rem
@@ -86,8 +87,7 @@ export default {
       color: $error
   .input_wrap
     position: relative
-    width: 100%
-    max-width: 367px
+    width: 367px
     margin-bottom: 10px
     input
       font-size: 0.94rem
@@ -104,6 +104,7 @@ export default {
       cursor: pointer
   .error
     color: $error
+    height: 0.87rem
     .error-cnt
       display: none
   &.error
@@ -118,4 +119,6 @@ export default {
         grid-template-columns: min-content 1fr
         grid-column-gap: 7px
         align-items: center
+        font-family: $FiraSans
+        font-size: 0.68rem
 </style>
