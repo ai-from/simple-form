@@ -8,15 +8,18 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {title: 'Simple Form | Home'}
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/error',
+    name: 'Error',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Error.vue'),
+    meta: {title: 'Simple Form | Error'}
+  },
+  {
+    path: '*',
+    redirect: '/error'
   }
 ]
 
@@ -24,6 +27,11 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
 })
 
 export default router
