@@ -99,6 +99,8 @@ export default {
       border-bottom: 1px solid $grey
       padding: 14px 20px 14px 0
       width: 100%
+      &:focus
+        border-bottom: 1px solid $active
       &::placeholder
         font-family: $FiraSans
         font-size: 0.94rem
