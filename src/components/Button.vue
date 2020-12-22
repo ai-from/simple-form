@@ -44,6 +44,7 @@ button
   border-radius: 50px
   border: none
   cursor: pointer
+  transition: all linear $time
   &.disabled
     opacity: .5
   &.white

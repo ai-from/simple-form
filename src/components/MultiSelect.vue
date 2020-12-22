@@ -15,6 +15,7 @@
       </div>
       <span
         class="hashtags-item"
+        :class="{opacity: item.opacity}"
         v-for="(item, index) in listToShow"
         :key="index"
       >
@@ -78,18 +79,28 @@ export default {
         this.listToShow.push(this.list[index])
         this.list[index].active = false
         let selectedList = []
-        this.listToShow.forEach(item => selectedList.push(item.title))
+        this.listToShow.forEach(item => {
+          selectedList.push(item.title)
+          let timer = setTimeout(() => {
+            item.opacity = true
+            clearTimeout(timer)
+          }, 0)
+        })
         this.$emit('listToShow', selectedList)
       }
     },
     removeTag(index, title) {
-      this.listToShow.splice(index, 1)
-      this.list.forEach(item => {
-        item.title === title ? item.active = true : false
-      })
-      let selectedList = []
-      this.listToShow.forEach(item => selectedList.push(item.title))
-      this.$emit('listToShow', selectedList)
+      this.listToShow[index].opacity = false
+      let timer = setTimeout(() => {
+        this.listToShow.splice(index, 1)
+        this.list.forEach(item => {
+          item.title === title ? item.active = true : false
+        })
+        let selectedList = []
+        this.listToShow.forEach(item => selectedList.push(item.title))
+        this.$emit('listToShow', selectedList)
+        clearTimeout(timer)
+      }, 250)
     },
     showList() {
       this.isList = true
@@ -150,6 +161,10 @@ export default {
       grid-column-gap: 8px
       align-items: center
       margin: 0 5px 5px 0
+      opacity: 0
+      transition: all linear $time
+      &.opacity
+        opacity: 1
       svg
         &:hover
           cursor: pointer
@@ -170,6 +185,7 @@ export default {
       cursor: pointer
       padding: 8px 15px
       border-radius: 50px
+      transition: all linear $time
       &:hover
         background: $tagHover
       &.disable

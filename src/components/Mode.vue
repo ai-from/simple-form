@@ -63,6 +63,7 @@ export default {
       height: 18px
       border: 1px solid $grey
       border-radius: 3px
+      transition: all linear $time
       svg
         display: none
     &.active

@@ -76,11 +76,11 @@ export default {
     errors,
     fullName: '',
     educationList: [
-      {title: 'Среднее', active: true},
-      {title: 'Среднее специальное', active: true},
-      {title: 'Незаконченное высшее', active: true},
-      {title: 'Высшее', active: true},
-      {title: 'Магистр, кандидат, доктор наук', active: true}
+      {title: 'Среднее', active: true, opacity: false},
+      {title: 'Среднее специальное', active: true, opacity: false},
+      {title: 'Незаконченное высшее', active: true, opacity: false},
+      {title: 'Высшее', active: true, opacity: false},
+      {title: 'Магистр, кандидат, доктор наук', active: true, opacity: false}
     ],
     selectedList: [],
     moveStatus: false,
@@ -161,4 +161,18 @@ export default {
   transition: all linear $time
 .fade-enter-to, .fade-leave
   opacity: 1
+
+form
+  display: grid
+  grid-template-columns: repeat(3, min-content)
+  grid-template-rows: repeat(3, min-content)
+  grid-gap: 30px
+  position: relative
+  .buttons
+    grid-column: 1/2
+    grid-row: 3/4
+  .notification
+    position: absolute
+    top: calc(100% + 20px)
+    left: 0
 </style>

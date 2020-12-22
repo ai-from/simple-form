@@ -39,6 +39,9 @@ export default {
     width: min-content
     border: 1px solid $grey
     cursor: pointer
+    display: grid
+    align-items: center
+    transition: all linear $time
     &.active
       color: $active
       background: $white
