@@ -2,10 +2,10 @@
   <div class="field"
        :class="{error: isError}"
   >
-    <label :for="getId">{{ label }}<span v-if="required">*</span></label>
+    <label :for="id">{{ label }}<span v-if="required">*</span></label>
     <div class="input_wrap">
       <input
-        :id="getId"
+        :id="id"
         type="text"
         :placeholder="placeholder"
         :value="value"
@@ -39,6 +39,7 @@
 
 <script>
 export default {
+  name: 'Input',
   props: {
     value: {},
     label: {
@@ -48,6 +49,10 @@ export default {
     required: {
       type: Boolean,
       default: false
+    },
+    id: {
+      type: String,
+      required: true
     },
     placeholder: {
       type: String,
@@ -65,9 +70,6 @@ export default {
   data: () => ({
     fullName: ''
   }),
-  computed: {
-    getId: () => new Date().getTime()
-  },
   methods: {
     clearField() {
       this.$emit('clear')
@@ -76,18 +78,19 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .field
   width: min-content
   label
     font-family: $FiraSans
     font-size: 0.75rem
     color: $grey
+    cursor: pointer
     span
       color: $error
   .input_wrap
     position: relative
-    width: 367px
+    width: 366px
     margin-bottom: 10px
     input
       font-size: 0.94rem
@@ -96,6 +99,10 @@ export default {
       border-bottom: 1px solid $grey
       padding: 14px 20px 14px 0
       width: 100%
+      &::placeholder
+        font-family: $FiraSans
+        font-size: 0.94rem
+        color: $grey
     svg
       position: absolute
       top: 50%
