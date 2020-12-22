@@ -74,6 +74,9 @@ export default {
       if(this.list[index].active) {
         this.listToShow.push(this.list[index])
         this.list[index].active = false
+        let selectedList = []
+        this.listToShow.forEach(item => selectedList.push(item.title))
+        this.$emit('listToShow', selectedList)
       }
     },
     removeTag(index, title) {
@@ -81,6 +84,9 @@ export default {
       this.list.forEach(item => {
         item.title === title ? item.active = true : false
       })
+      let selectedList = []
+      this.listToShow.forEach(item => selectedList.push(item.title))
+      this.$emit('listToShow', selectedList)
     },
     showList() {
       this.isList = true
@@ -88,7 +94,7 @@ export default {
     clickOutside(e) {
       let el = this.$refs.multiSelect
       let target = e.target
-      if (el !== target && !el.contains(target)){
+      if (el && el !== target && !el.contains(target)){
         this.isList = false
       }
     }
@@ -124,6 +130,7 @@ export default {
       font-family: $FiraSansMedium
       font-size: 0.75rem
       color: $black
+      cursor: default
       padding: 8px 13px 8px 14px
       border: 1px solid $grey
       border-radius: 50px
@@ -146,6 +153,7 @@ export default {
     box-shadow: rgba(0, 15, 38, .25) 0 4px 16px
     border-radius: 6px
     width: 100%
+    z-index: 2
     &-item
       font-family: $FiraSans
       font-size: 0.93rem

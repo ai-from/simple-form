@@ -17,6 +17,13 @@
         label="Образование"
         placeholder="Выберите образование"
         :list="educationList"
+        @listToShow="listToShow"
+      />
+
+      <Checkbox
+        label="Готов к переезду"
+        :status="moveStatus"
+        @checkbox="moveStatus = !moveStatus"
       />
 
       <button type="submit">Submit</button>
@@ -30,6 +37,7 @@ import {required, minLength, maxLength} from "vuelidate/lib/validators"
 import errors from "@/errors"
 import Input from "@/components/Input"
 import MultiSelect from "@/components/MultiSelect"
+import Checkbox from "@/components/Checkbox"
 
 export default {
   name: 'Home',
@@ -42,22 +50,25 @@ export default {
       {title: 'Незаконченное высшее', active: true},
       {title: 'Высшее', active: true},
       {title: 'Магистр, кандидат, доктор наук', active: true}
-    ]
+    ],
+    selectedList: [],
+    moveStatus: false
   }),
   components: {
     Input,
-    MultiSelect
+    MultiSelect,
+    Checkbox
   },
   validations: {
     fullName: {required, minLength: minLength(2), maxLength: maxLength(40)}
   },
   methods: {
-    getFullName(val) {
-      this.fullName = val
-    },
     submit() {
       this.$v.$touch()
       this.$v.$invalid ? console.log('bad') : console.log('good')
+    },
+    listToShow(arr) {
+      this.selectedList = arr
     }
   }
 }
