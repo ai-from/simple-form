@@ -36,7 +36,20 @@
         @mode="mode"
       />
 
-      <button type="submit">Submit</button>
+      <div class="buttons">
+        <Button
+          title="Отменить"
+          :disabled="isDisabled"
+          @click="cancelBtn"
+        />
+
+        <Button
+          title="Сохранить"
+          theme="blue"
+          type="submit"
+          :disabled="isDisabled"
+        />
+      </div>
 
     </form>
   </div>
@@ -50,6 +63,7 @@ import MultiSelect from "@/components/MultiSelect"
 import Checkbox from "@/components/Checkbox"
 import Gender from "@/components/Gender"
 import Mode from "@/components/Mode"
+import Button from "@/components/Button"
 
 export default {
   name: 'Home',
@@ -73,7 +87,13 @@ export default {
     MultiSelect,
     Checkbox,
     Gender,
-    Mode
+    Mode,
+    Button
+  },
+  computed: {
+    isDisabled() {
+      return !(this.fullName || this.selectedList.length || this.moveStatus || !this.isMan || !this.isFullDay)
+    }
   },
   validations: {
     fullName: {required, minLength: minLength(2), maxLength: maxLength(40)}
@@ -91,7 +111,22 @@ export default {
     },
     mode(val) {
       this.isFullDay = val
+    },
+    cancelBtn() {
+      this.fullName = ''
+      this.selectedList = []
+      this.$root.$emit('reset')
+      this.moveStatus = false
+      this.isMan = true
+      this.isFullDay = true
     }
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.buttons
+  display: grid
+  grid-template-columns: repeat(2, min-content)
+  grid-column-gap: 10px
+</style>

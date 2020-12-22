@@ -63,6 +63,9 @@ export default {
     list: {
       type: Array,
       default: []
+    },
+    reset: {
+      type: Boolean
     }
   },
   data: () => ({
@@ -101,6 +104,12 @@ export default {
   },
   created() {
     document.addEventListener('click', this.clickOutside)
+  },
+  mounted() {
+    this.$root.$on('reset', () => {
+      this.listToShow = []
+      this.list.forEach(item => item.active = true)
+    })
   }
 }
 </script>
