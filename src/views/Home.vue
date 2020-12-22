@@ -51,6 +51,10 @@
         />
       </div>
 
+      <transition name="fade">
+        <Notification v-if="isDone" />
+      </transition>
+
     </form>
   </div>
 </template>
@@ -64,6 +68,7 @@ import Checkbox from "@/components/Checkbox"
 import Gender from "@/components/Gender"
 import Mode from "@/components/Mode"
 import Button from "@/components/Button"
+import Notification from "@/components/Notification"
 
 export default {
   name: 'Home',
@@ -80,7 +85,8 @@ export default {
     selectedList: [],
     moveStatus: false,
     isMan: true,
-    isFullDay: true
+    isFullDay: true,
+    isDone: false
   }),
   components: {
     Input,
@@ -88,7 +94,8 @@ export default {
     Checkbox,
     Gender,
     Mode,
-    Button
+    Button,
+    Notification
   },
   computed: {
     isDisabled() {
@@ -101,7 +108,23 @@ export default {
   methods: {
     submit() {
       this.$v.$touch()
-      this.$v.$invalid ? console.log('bad') : console.log('good')
+      if(this.$v.$invalid) {
+        this.isDone = false
+      } else {
+        this.isDone = true
+        const obj = {
+          'fullName': this.fullName,
+          'selectedList': this.selectedList,
+          'moveStatus': this.moveStatus ? 'Готов к переезду' : 'Не готов к переезду',
+          'gender': this.isMan ? 'Мужчина' : 'Женщина',
+          'mode': this.isFullDay ? 'Полный рабочий день' : 'Удаленная работа'
+        }
+        localStorage.setItem('data', JSON.stringify(obj))
+        let timer = setTimeout(() => {
+          this.isDone = false
+          clearTimeout(timer)
+        }, 3000)
+      }
     },
     listToShow(arr) {
       this.selectedList = arr
@@ -119,6 +142,9 @@ export default {
       this.moveStatus = false
       this.isMan = true
       this.isFullDay = true
+      if(localStorage.getItem('data')) {
+        localStorage.removeItem('data')
+      }
     }
   }
 }
@@ -129,4 +155,10 @@ export default {
   display: grid
   grid-template-columns: repeat(2, min-content)
   grid-column-gap: 10px
+.fade-enter, .fade-leave-to
+  opacity: 0
+.fade-enter-active, .fade-leave-active
+  transition: all linear $time
+.fade-enter-to, .fade-leave
+  opacity: 1
 </style>
