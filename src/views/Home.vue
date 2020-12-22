@@ -31,6 +31,11 @@
         @gender="gender"
       />
 
+      <Mode
+        v-model="isFullDay"
+        @mode="mode"
+      />
+
       <button type="submit">Submit</button>
 
     </form>
@@ -44,6 +49,7 @@ import Input from "@/components/Input"
 import MultiSelect from "@/components/MultiSelect"
 import Checkbox from "@/components/Checkbox"
 import Gender from "@/components/Gender"
+import Mode from "@/components/Mode"
 
 export default {
   name: 'Home',
@@ -59,13 +65,15 @@ export default {
     ],
     selectedList: [],
     moveStatus: false,
-    isMan: true
+    isMan: true,
+    isFullDay: true
   }),
   components: {
     Input,
     MultiSelect,
     Checkbox,
-    Gender
+    Gender,
+    Mode
   },
   validations: {
     fullName: {required, minLength: minLength(2), maxLength: maxLength(40)}
@@ -80,6 +88,9 @@ export default {
     },
     gender(val) {
       this.isMan = val
+    },
+    mode(val) {
+      this.isFullDay = val
     }
   }
 }
