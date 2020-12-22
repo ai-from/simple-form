@@ -26,6 +26,11 @@
         @checkbox="moveStatus = !moveStatus"
       />
 
+      <Gender
+        v-model="isMan"
+        @gender="gender"
+      />
+
       <button type="submit">Submit</button>
 
     </form>
@@ -38,6 +43,7 @@ import errors from "@/errors"
 import Input from "@/components/Input"
 import MultiSelect from "@/components/MultiSelect"
 import Checkbox from "@/components/Checkbox"
+import Gender from "@/components/Gender"
 
 export default {
   name: 'Home',
@@ -52,12 +58,14 @@ export default {
       {title: 'Магистр, кандидат, доктор наук', active: true}
     ],
     selectedList: [],
-    moveStatus: false
+    moveStatus: false,
+    isMan: true
   }),
   components: {
     Input,
     MultiSelect,
-    Checkbox
+    Checkbox,
+    Gender
   },
   validations: {
     fullName: {required, minLength: minLength(2), maxLength: maxLength(40)}
@@ -69,6 +77,9 @@ export default {
     },
     listToShow(arr) {
       this.selectedList = arr
+    },
+    gender(val) {
+      this.isMan = val
     }
   }
 }
