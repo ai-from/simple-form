@@ -150,4 +150,15 @@ export default {
   transition: all linear $time
 .error-enter-to, .error-leave
   opacity: 1
+
+@media screen and (max-width: 960px)
+  .field
+    .input_wrap
+      width: 215px
+
+@media screen and (max-width: 670px)
+  .field
+    width: 100%
+    .input_wrap
+      width: 100%
 </style>

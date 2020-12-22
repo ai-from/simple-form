@@ -1,40 +1,46 @@
 <template>
   <div class="home">
     <form @submit.prevent="submit">
+      <div class="fields">
+        <Input
+          label="ФИО"
+          class="fullname"
+          :required="true"
+          :id="'fullname_' + new Date().getTime()"
+          placeholder="Введите ФИО"
+          v-model.trim="fullName"
+          @clear="fullName = ''"
+          :isError="$v.$dirty && $v.fullName.$invalid"
+          :errorMsg="errors.fullName($v.fullName.$params.minLength.min, $v.fullName.$params.maxLength.max)"
+        />
 
-      <Input
-        label="ФИО"
-        :required="true"
-        :id="'fullname_' + new Date().getTime()"
-        placeholder="Введите ФИО"
-        v-model.trim="fullName"
-        @clear="fullName = ''"
-        :isError="$v.$dirty && $v.fullName.$invalid"
-        :errorMsg="errors.fullName($v.fullName.$params.minLength.min, $v.fullName.$params.maxLength.max)"
-      />
+        <MultiSelect
+          label="Образование"
+          class="education"
+          placeholder="Выберите образование"
+          :list="educationList"
+          @listToShow="listToShow"
+        />
 
-      <MultiSelect
-        label="Образование"
-        placeholder="Выберите образование"
-        :list="educationList"
-        @listToShow="listToShow"
-      />
+        <Checkbox
+          label="Готов к переезду"
+          class="move"
+          :status="moveStatus"
+          @checkbox="moveStatus = !moveStatus"
+        />
 
-      <Checkbox
-        label="Готов к переезду"
-        :status="moveStatus"
-        @checkbox="moveStatus = !moveStatus"
-      />
+        <Gender
+          v-model="isMan"
+          @gender="gender"
+          class="gender"
+        />
 
-      <Gender
-        v-model="isMan"
-        @gender="gender"
-      />
-
-      <Mode
-        v-model="isFullDay"
-        @mode="mode"
-      />
+        <Mode
+          v-model="isFullDay"
+          @mode="mode"
+          class="mode"
+        />
+      </div>
 
       <div class="buttons">
         <Button
@@ -49,11 +55,10 @@
           type="submit"
           :disabled="isDisabled"
         />
+        <transition name="fade">
+          <Notification v-if="isDone" />
+        </transition>
       </div>
-
-      <transition name="fade">
-        <Notification v-if="isDone" />
-      </transition>
 
     </form>
   </div>
@@ -142,19 +147,21 @@ export default {
       this.moveStatus = false
       this.isMan = true
       this.isFullDay = true
-      if(localStorage.getItem('data')) {
-        localStorage.removeItem('data')
-      }
+      this.$v.$reset()
     }
   }
 }
 </script>
 
-<style lang="sass" scoped>
-.buttons
-  display: grid
-  grid-template-columns: repeat(2, min-content)
-  grid-column-gap: 10px
+<style lang="sass">
+.home
+  min-height: 100vh
+  form
+    padding: 8px 8px 0
+    .buttons
+      display: grid
+      grid-template-columns: repeat(2, min-content)
+      grid-column-gap: 10px
 .fade-enter, .fade-leave-to
   opacity: 0
 .fade-enter-active, .fade-leave-active
@@ -162,17 +169,69 @@ export default {
 .fade-enter-to, .fade-leave
   opacity: 1
 
-form
-  display: grid
-  grid-template-columns: repeat(3, min-content)
-  grid-template-rows: repeat(3, min-content)
-  grid-gap: 30px
-  position: relative
-  .buttons
-    grid-column: 1/2
-    grid-row: 3/4
-  .notification
-    position: absolute
-    top: calc(100% + 20px)
-    left: 0
+.home
+  form
+    display: grid
+    grid-template-rows: repeat(2, min-content)
+    grid-row-gap: 30px
+    .fields
+      display: grid
+      grid-template-columns: repeat(3, min-content)
+      grid-template-rows: repeat(2, min-content)
+      align-content: start
+      grid-gap: 30px
+      position: relative
+    .buttons
+      position: relative
+    .notification
+      position: absolute
+      top: calc(100% + 20px)
+      left: 0
+
+@media screen and (max-width: 960px)
+  .home
+    form
+      .fields
+        .mode
+          grid-column: 2/4
+
+@media screen and (max-width: 670px)
+  .home
+    form
+      grid-template-rows: 1fr min-content
+      min-height: inherit
+      .fields
+        grid-template-columns: 1fr
+        grid-gap: 20px
+        .mode
+          grid-column: unset
+      .buttons
+        .notification
+          top: calc(-76px)
+          left: 0
+          width: 280px
+          padding: 22px 0
+          justify-content: center
+
+@media screen and (max-width: 370px)
+  .home
+    form
+      .fields
+        .gender
+          grid-template-columns: repeat(2, 1fr)
+          .item
+            width: 100%
+        .mode
+          grid-template-columns: 1fr
+          grid-template-rows: repeat(2, min-content)
+          grid-row-gap: 20px
+      .buttons
+        grid-template-columns: repeat(2, 1fr)
+        grid-column-gap: 0
+        width: calc(100% + 16px)
+        transform: translateX(-8px)
+        .notification
+          left: 50%
+          transform: translateX(-50%)
+
 </style>

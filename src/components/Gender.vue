@@ -42,6 +42,7 @@ export default {
     display: grid
     align-items: center
     transition: all linear $time
+    justify-content: center
     &.active
       color: $active
       background: $white

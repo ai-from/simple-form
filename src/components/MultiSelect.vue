@@ -204,4 +204,15 @@ export default {
 .fade-enter-to, .fade-leave
   opacity: 1
 
+@media screen and (max-width: 960px)
+  .field
+    .hashtags
+      width: 215px
+
+@media screen and (max-width: 670px)
+  .field
+    width: 100%
+    .hashtags
+      width: 100%
+
 </style>

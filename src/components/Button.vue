@@ -55,4 +55,8 @@ button
     background: $active
     color: $white
     border: 1px solid $active
+
+@media screen and (max-width: 370px)
+  button
+    border-radius: 0
 </style>
