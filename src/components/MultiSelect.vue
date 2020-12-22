@@ -134,9 +134,9 @@ export default {
     font-size: 0.75rem
     color: $grey
   .hashtags
-    min-height: 48px
+    min-height: 46px
     border-bottom: 1px solid $grey
-    padding: 5px 0
+    padding: 4px 0
     width: 366px
     &.active
       border-bottom: 1px solid $active
@@ -146,6 +146,7 @@ export default {
       font-family: $FiraSans
       font-size: 0.94rem
       color: $grey
+      padding-top: 10px
     &-item
       font-family: $FiraSansMedium
       font-size: 0.75rem
